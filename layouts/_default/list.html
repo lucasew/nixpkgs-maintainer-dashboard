@@ -2,7 +2,7 @@
 <section>
   {{ .Content }}
 
-  {{ range .Pages.ByDate.Reverse }}
+  {{ range .Pages }}
 
   <a href="{{ .Permalink | absURL }}">
     <h2>{{ .Title }}</h2>

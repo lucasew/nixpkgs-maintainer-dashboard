@@ -3,10 +3,11 @@ title: bentoml
 meta:
   description: Pipipi popopo
   version: '5.42'
-build_state:
+build_states:
   - ok
-update_state:
+update_states:
   - ok
 maintainers:
   - lucasew
 ---
+fdkajfklajsdklf jaskldfjklas
