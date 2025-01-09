@@ -1,0 +1,71 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Set a branch to deploy
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      id-token: write
+      pages: write
+      contents: write
+      pull-requests: write
+    environment:
+      name: github-pages
+      url: https://lucasew.github.io/
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Run updaters
+        run: ./update.sh
+
+      - name: Create Pull Request if there is new stuff from updaters
+        uses: peter-evans/create-pull-request@v7
+        id: pr_create
+        with:
+          commit-message: Updater script changes
+          branch: updater-bot
+          delete-branch: true
+          title: "Updater: stuff changed"
+          body: |
+            Changes caused from update scripts
+          reviewers: lucasew
+      - name: Stop if a pull request was created
+        env:
+          PR_NUMBER: ${{ steps.pr_create.outputs.pull-request-number }}
+        run: |
+          if [[ ! -z "$PR_NUMBER" ]]; then
+            echo "The update scripts changed something and a PR was created. Giving up deploy." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+
+      - name: Build
+        env:
+          URL: ${{ steps.deployment.outputs.page_url }}
+        run: hugo --minify --baseURL "$URL"
+
+      - name: Upload static files as artifact
+        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+        with:
+          path: ./public
+
+      - name: Step summary
+        env:
+          URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          printf "Deployed on: %s" "$URL" >> $GITHUB_STEP_SUMMARY
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+        

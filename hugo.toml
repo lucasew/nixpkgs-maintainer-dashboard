@@ -1,0 +1,36 @@
+disableKinds = ['taxonomy', 'term']
+[params]
+baseURL = 'https://example.org/'
+# languageCode = 'en-us'
+title = "nixpkgs maintainers dashboard"
+# defaultContentLanguage = 'en'
+
+[languages.en]
+title = "nixpkgs maintainers dashboard"
+languageName = "🇺🇸"
+disabled = false
+
+[languages.pt]
+title = "dashboard dos mantenedores do nixpkgs"
+languageCode = "pt_BR"
+languageName = "🇧🇷"
+disabled = false
+
+[taxonomies]
+build_state = 'build_states'
+update_state = 'update_states'
+maintainer = 'maintainers'
+
+
+[module]
+  [[module.mounts]]
+    source = 'content'
+    target = 'content'
+    lang = 'en'
+  [[module.mounts]]
+    source = 'content'
+    target = 'content'
+    lang = 'pt'
+
+[markup.goldmark.renderer]
+unsafe= true

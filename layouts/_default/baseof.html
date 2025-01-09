@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language }}" dir="{{ .Language.LanguageDirection | default " auto" }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {{- if hugo.IsProduction | or (eq .Site.Params.env "production") }}
+  <meta name="robots" content="index, follow">
+  {{- else }}
+  <meta name="robots" content="noindex, nofollow">
+  {{- end }}
+  {{ with .Page.File }}
+  <meta name="mdpath" content="{{ .Path }}" />
+  {{ end }}
+  <meta name="description" content="{{ .Params.summary }}">
+  <title>{{ .Params.title | default .Site.Title }}</title>
+  {{ with .OutputFormats.Get "rss" -}}
+  {{ printf `
+  <link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
+  {{ end }}
+  <link rel="dns-prefetch" href="https://unpkg.com/" />
+  <script src="https://unpkg.com/htmx.org@2.0.4"
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" media="screen" />
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura-dark.css"
+    media="screen and (prefers-color-scheme: dark)" />
+
+  <script>
+    window.siteUsesMainTemplate = true;
+    console.log('{{ .Type }} {{ .Kind }}')
+  </script>
+
+</head>
+
+<body hx-boost="true">
+  <style>
+    nav {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    aside {
+      border-bottom: 1px solid gray;
+    }
+
+    nav>div>a {
+      margin-left: 1rem;
+    }
+  </style>
+  <header>
+    <nav>
+      <div>
+        {{ with .GetPage "/" }}
+        <a href="{{ .RelPermalink }}" style="margin: 0">
+          <img
+            src="https://raw.githubusercontent.com/NixOS/nixos-artwork/refs/heads/master/logo/nix-snowflake-colours.svg"
+            alt="icon" style="margin: 0; height: 1em; vertical-align: middle;" />
+          <b>
+            {{ .Site.Title }}
+          </b>
+        </a>
+        {{ end }}
+      </div>
+      <div>
+        {{- block "header" . -}}{{- end -}}
+        {{ with .GetPage "/utils" }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
+        {{ with .GetPage "/post" }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
+
+        {{ range $.Page.AllTranslations }}
+        <a href="{{ .RelPermalink }}">{{ .Language.LanguageName }}</a>
+        {{ end }}
+
+      </div>
+    </nav>
+  </header>
+  <hr />
+
+  <main>
+    {{- block "content" . -}}{{- end -}}
+  </main>
+</body>

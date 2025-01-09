@@ -1,0 +1,23 @@
+{{- define "content" -}}
+<h1>{{ .Title }}</h1>
+
+{{ with .Params.alsoAvailable }}
+<i>{{ i18n "also-available-on"}}:
+  {{ range $k, $v := . }}
+  <a target="_blank" href="{{ $v }}">[{{ add $k 1 }}]</a>
+  {{ end }}
+</i>
+<br />
+{{ end }}
+
+{{ with .Params.discussedOn }}
+<i>{{ i18n "discussed-on"}}:
+  {{ range $k, $v := . }}
+  <a target="_blank" href="{{ $v }}">[{{ add $k 1 }}]</a>
+  {{ end }}
+</i>
+<br />
+{{ end }}
+
+{{ .Content }}
+{{- end -}}

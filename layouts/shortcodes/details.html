@@ -1,0 +1,9 @@
+{{ $open := .Get "open" | default "false" }}
+{{ $summary := .Get 0 }}
+
+<details {{ if eq $open "true" }} open {{ end }}>
+  <summary>
+    {{ $summary | markdownify }}
+  </summary>
+  {{ .Inner | markdownify }}
+</details>
