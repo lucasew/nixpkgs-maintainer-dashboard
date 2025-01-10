@@ -2,7 +2,7 @@
 <section>
   {{ .Content }}
 
-  {{ range .Pages }}
+  {{ range .Data.Pages }}
 
   <a href="{{ .Permalink | absURL }}">
     <h2>{{ .Title }}</h2>
