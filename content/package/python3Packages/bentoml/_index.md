@@ -9,5 +9,7 @@ update_states:
   - ok
 maintainers:
   - lucasew
+tags:
+  - teste
 ---
 fdkajfklajsdklf jaskldfjklas
