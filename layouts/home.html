@@ -1,0 +1,15 @@
+{{- define "content" -}}
+{{ $pages := collections.Append .Data.Pages (slice (.GetPage "/maintainers") (.GetPage "/build_states") (.GetPage
+"/update_states")) }}
+<section>
+  {{ .Content }}
+
+  {{ range $pages }}
+
+  <a href="{{ .Permalink | absURL }}">
+    <h2>{{ .Title }}</h2>
+    <p>{{ .Params.summary }}</p>
+  </a>
+  {{ end }}
+</section>
+{{- end -}}
