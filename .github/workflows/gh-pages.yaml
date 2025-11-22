@@ -18,7 +18,7 @@ jobs:
       name: github-pages
       url: https://lucasew.github.io/
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
         with:
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
@@ -26,7 +26,7 @@ jobs:
         run: ./update.sh
 
       - name: Create Pull Request if there is new stuff from updaters
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7
         id: pr_create
         with:
           commit-message: Updater script changes
@@ -46,7 +46,7 @@ jobs:
           fi
 
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v3
+        uses: peaceiris/actions-hugo@75d2e84710de30f6ff7268e08f310b60ef14033f # v3
         with:
           hugo-version: 'latest'
 
@@ -56,7 +56,7 @@ jobs:
         run: hugo --minify --baseURL "$URL"
 
       - name: Upload static files as artifact
-        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3 # or specific "vX.X.X" version tag for this action
         with:
           path: ./public
 
