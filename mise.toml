@@ -1,0 +1,41 @@
+[tools]
+go = "1.24.0"
+hugo = "0.143.1"
+
+[env]
+_.path = ["{{env.HOME}}/go/bin"]
+
+[tasks.lint]
+description = "Run workspaced codebase lint"
+run = "workspaced codebase lint"
+
+[tasks.fmt]
+description = "Run workspaced codebase format"
+run = "workspaced codebase format"
+
+[tasks.test]
+description = "Run tests (build site)"
+run = "hugo --minify"
+
+[tasks.codegen]
+description = "Run code generation"
+run = "./update.sh"
+
+[tasks.install]
+description = "Install dependencies"
+run = """
+if ! command -v workspaced > /dev/null 2>&1; then
+    echo "Installing workspaced..."
+    TMP_DIR=$(mktemp -d)
+    git clone --depth 1 https://github.com/lucasew/workspaced "$TMP_DIR"
+    cd "$TMP_DIR"
+    go install ./cmd/workspaced
+    rm -rf "$TMP_DIR"
+else
+    echo "workspaced is already installed."
+fi
+"""
+
+[tasks.ci]
+description = "Run CI pipeline"
+depends = ["lint", "test"]
