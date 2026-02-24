@@ -38,6 +38,7 @@ jobs:
           title: "chore: update generated code"
           body: "Automated update of generated code."
           labels: "automated pr"
+          base: ${{ github.head_ref || github.ref_name }}
 
       - name: CI
         run: mise run ci
