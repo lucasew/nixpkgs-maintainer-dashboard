@@ -1,0 +1,12 @@
+[tools]
+go = "1.22.2"
+hugo = "0.124.1"
+
+[tasks.test]
+run = "hugo --minify"
+
+[tasks.codegen]
+run = "./update.sh"
+
+[tasks.ci]
+run = "mise run test"
