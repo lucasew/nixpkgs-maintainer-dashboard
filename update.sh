@@ -12,7 +12,9 @@ reportError() {
 
 trap 'reportError ${LINENO} "$BASH_COMMAND"' ERR
 
-find . -executable -type f | grep update_ | grep -v "update.sh" | while read -r item; do
+files=$(find . -executable -type f | grep update_ | grep -v "update.sh" || true)
+
+for item in $files; do
   echo "Running $item"
   "$item"
-done || true
+done
