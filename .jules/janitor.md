@@ -1,0 +1,1 @@
+- 2025-03-20: Ensure markdown files are formatted using dprint.
