@@ -36,6 +36,7 @@ jobs:
           body: |
             Changes caused from update scripts
           reviewers: lucasew
+          base: ${{ github.head_ref || github.ref_name }}
       - name: Stop if a pull request was created
         env:
           PR_NUMBER: ${{ steps.pr_create.outputs.pull-request-number }}
